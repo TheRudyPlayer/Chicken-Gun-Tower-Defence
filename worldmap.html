@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CG TD - Mapa</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    font-family:Arial, sans-serif;
+
+    background:url("https://i.postimg.cc/Xvzs1cPP/backgroundmapcgtd.png")
+    center top / cover no-repeat fixed;
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+}
+
+
+/* Capa suave */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.2);
+
+    z-index:-1;
+
+}
+
+
+
+/* Contenedor */
+
+.map{
+
+    width:100%;
+
+    height:2200px;
+
+    position:relative;
+
+}
+
+
+
+/* Camino */
+
+.path{
+
+    position:absolute;
+
+    top:180px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:35px;
+
+    height:1600px;
+
+    background:#9b672d;
+
+    border-radius:30px;
+
+}
+
+
+
+/* Botones de mundos */
+
+.world{
+
+    position:absolute;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:220px;
+
+    height:90px;
+
+    border-radius:20px;
+
+    border:5px solid #5c3214;
+
+    background:
+
+    linear-gradient(
+        180deg,
+        #dba15a,
+        #a9652b
+    );
+
+    color:white;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+
+    box-shadow:
+
+    inset 0 4px 0 rgba(255,255,255,.3),
+
+    0 7px 0 #5c3214,
+
+    0 12px 20px rgba(0,0,0,.3);
+
+
+    transition:.2s;
+
+}
+
+
+
+.world:hover{
+
+    transform:translateX(-50%) scale(1.08);
+
+}
+
+
+
+/* Posiciones */
+
+.inicio{
+
+    top:150px;
+
+}
+
+
+.bosque{
+
+    top:650px;
+
+}
+
+
+.desierto{
+
+    top:1150px;
+
+}
+
+
+
+/* Botón volver */
+
+.back{
+
+    position:fixed;
+
+    top:20px;
+
+    left:20px;
+
+    z-index:5;
+
+    padding:15px 25px;
+
+    border-radius:15px;
+
+    border:4px solid #5c3214;
+
+    background:#c8893e;
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<button class="back" onclick="backMenu()">
+Volver
+</button>
+
+
+<div class="map">
+
+
+<div class="path"></div>
+
+
+<button class="world inicio" onclick="openMap('inicio')">
+Inicio
+</button>
+
+
+<button class="world bosque" onclick="openMap('bosque')">
+Bosque
+</button>
+
+
+<button class="world desierto" onclick="openMap('desierto')">
+Desierto
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+function openMap(map){
+
+    if(map === "inicio"){
+
+        location.href="inicio.html";
+
+    }
+
+
+    if(map === "bosque"){
+
+        location.href="bosque.html";
+
+    }
+
+
+    if(map === "desierto"){
+
+        location.href="desierto.html";
+
+    }
+
+}
+
+
+
+function backMenu(){
+
+    location.href="index.html";
+
+}
+
+
+</script>
+
+
+</body>
+</html>

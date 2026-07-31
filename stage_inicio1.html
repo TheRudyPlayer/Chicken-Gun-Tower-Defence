@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chicken Gun Tower Defense - Nivel 1</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial,sans-serif;
+
+    background:#6dbb45;
+
+    overflow:hidden;
+
+}
+
+
+/* HUD */
+
+.hud{
+
+    position:fixed;
+
+    top:15px;
+
+    left:15px;
+
+    right:15px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    z-index:20;
+
+}
+
+
+.box{
+
+    background:#8b5a2b;
+
+    color:white;
+
+    padding:10px 15px;
+
+    border-radius:15px;
+
+    border:4px solid #4d280d;
+
+    font-weight:bold;
+
+}
+
+
+
+/* Botones */
+
+button{
+
+    background:#dca55a;
+
+    color:white;
+
+    border:4px solid #5c3214;
+
+    border-radius:15px;
+
+    padding:10px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+
+/* Barra de vida */
+
+.life-bar{
+
+    position:fixed;
+
+    top:70px;
+
+    left:20px;
+
+    width:250px;
+
+    height:25px;
+
+    background:#222;
+
+    border:4px solid #4d280d;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+#life-fill{
+
+    width:100%;
+
+    height:100%;
+
+    background:red;
+
+}
+
+
+
+/* Mapa */
+
+.game{
+
+    width:100vw;
+
+    height:100vh;
+
+    position:relative;
+
+}
+
+
+
+/* Camino arriba-abajo */
+
+.path{
+
+    position:absolute;
+
+    top:10%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:90px;
+
+    height:75%;
+
+    background:#c99b63;
+
+    border:10px solid #85552b;
+
+    border-radius:50px;
+
+}
+
+
+
+/* Entrada */
+
+.spawn{
+
+    position:absolute;
+
+    top:20px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:55px;
+
+}
+
+
+
+/* Base */
+
+.base{
+
+    position:absolute;
+
+    bottom:20px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:60px;
+
+}
+
+
+
+/* Lugares de torres */
+
+.slot{
+
+    position:absolute;
+
+    width:80px;
+
+    height:80px;
+
+    background:rgba(255,255,255,.25);
+
+    border:3px dashed white;
+
+    border-radius:15px;
+
+}
+
+
+
+/* Torre */
+
+.tower{
+
+    width:80px;
+
+    height:80px;
+
+    background:#dca55a;
+
+    border:5px solid #5c3214;
+
+    border-radius:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:35px;
+
+}
+
+
+
+/* Enemigo */
+
+.enemy{
+
+    position:absolute;
+
+    width:55px;
+
+    height:55px;
+
+    background:#d83232;
+
+    border:5px solid darkred;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:25px;
+
+}
+
+
+
+/* Vida enemigo */
+
+.enemy-hp{
+
+    position:absolute;
+
+    top:-15px;
+
+    width:55px;
+
+    height:8px;
+
+    background:#222;
+
+}
+
+
+.enemy-hp-fill{
+
+    height:100%;
+
+    width:100%;
+
+    background:red;
+
+}
+
+
+
+/* Tienda */
+
+#shop{
+
+    position:fixed;
+
+    bottom:0;
+
+    width:100%;
+
+    background:#704214;
+
+    padding:15px;
+
+    display:none;
+
+    text-align:center;
+
+    z-index:30;
+
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+  <div class="hud">
+
+<div class="box">
+❤️ <span id="life">20</span>
+</div>
+
+<div class="box">
+💰 <span id="money">150</span>
+</div>
+
+<div class="box">
+🌊 <span id="wave">0</span>
+</div>
+
+<div class="box">
+⏱️ <span id="timer">10</span>
+</div>
+
+<button onclick="openShop()">
+Torres
+</button>
+
+<button onclick="deleteMode()">
+Eliminar
+</button>
+
+</div>
+
+
+
+<div class="life-bar">
+<div id="life-fill"></div>
+</div>
+
+
+
+
+<div class="game" id="game">
+
+
+<div class="path"></div>
+
+
+<div class="spawn">
+🐔
+</div>
+
+
+<div class="base">
+🏰
+</div>
+
+
+
+<!-- Lugares de construcción -->
+
+<div class="slot" style="left:25%;top:25%"></div>
+
+<div class="slot" style="left:65%;top:25%"></div>
+
+<div class="slot" style="left:20%;top:45%"></div>
+
+<div class="slot" style="left:70%;top:45%"></div>
+
+<div class="slot" style="left:25%;top:65%"></div>
+
+<div class="slot" style="left:65%;top:65%"></div>
+
+
+</div>
+
+
+
+
+<div id="shop">
+
+<h2 style="color:white">
+Construir Torres
+</h2>
+
+
+<button onclick="selectTower('🔫',50,1)">
+🔫 Básica<br>
+$50
+</button>
+
+
+<button onclick="selectTower('🎯',100,2.5)">
+🎯 Fuerte<br>
+$100
+</button>
+
+
+<button onclick="closeShop()">
+Cerrar
+</button>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+let life = 20;
+
+let money = 150;
+
+let wave = 0;
+
+let countdown = 10;
+
+let selected = null;
+
+let deleting = false;
+
+let enemies = [];
+
+let towers = [];
+
+let runningWave = false;
+
+
+
+function update(){
+
+
+document.getElementById("life").innerHTML = life;
+
+document.getElementById("money").innerHTML = money;
+
+document.getElementById("wave").innerHTML = wave;
+
+document.getElementById("life-fill").style.width =
+(life * 5) + "%";
+
+
+}
+
+
+
+
+function openShop(){
+
+document.getElementById("shop").style.display="block";
+
+}
+
+
+
+function closeShop(){
+
+document.getElementById("shop").style.display="none";
+
+}
+
+
+
+
+function deleteMode(){
+
+deleting=true;
+
+selected=null;
+
+}
+
+
+
+
+
+function selectTower(icon,cost,damage){
+
+
+if(money >= cost){
+
+
+selected={
+
+icon:icon,
+
+cost:cost,
+
+damage:damage
+
+};
+
+
+closeShop();
+
+
+}
+
+}
+
+
+
+
+
+
+document.querySelectorAll(".slot").forEach(slot=>{
+
+
+slot.dataset.used="false";
+
+
+
+slot.onclick=function(){
+
+
+
+if(deleting){
+
+
+let tower=this.querySelector(".tower");
+
+
+if(tower){
+
+
+tower.remove();
+
+
+towers=towers.filter(
+t=>t.element!==tower
+);
+
+
+this.dataset.used="false";
+
+
+}
+
+
+deleting=false;
+
+
+return;
+
+
+}
+
+
+
+
+
+if(!selected)return;
+
+
+if(this.dataset.used==="true")
+return;
+
+
+
+money-=selected.cost;
+
+
+
+let tower=document.createElement("div");
+
+
+tower.className="tower";
+
+tower.innerHTML=selected.icon;
+
+
+this.appendChild(tower);
+
+
+
+towers.push({
+
+element:tower,
+
+damage:selected.damage
+
+});
+
+
+
+this.dataset.used="true";
+
+
+selected=null;
+
+
+update();
+
+
+};
+
+
+
+});
+
+
+
+
+
+
+
+function startTimer(){
+
+
+let timer=setInterval(()=>{
+
+
+countdown--;
+
+
+document.getElementById("timer").innerHTML=countdown;
+
+
+
+if(countdown<=0){
+
+
+clearInterval(timer);
+
+
+startWave();
+
+
+}
+
+
+
+},1000);
+
+
+}
+
+
+
+
+
+
+function startWave(){
+
+
+wave++;
+
+update();
+
+
+let amount=wave*4;
+
+let spawned=0;
+
+
+let spawnTimer=setInterval(()=>{
+
+
+spawnEnemy();
+
+
+spawned++;
+
+
+if(spawned>=amount){
+
+
+clearInterval(spawnTimer);
+
+
+waitNextWave();
+
+
+}
+
+
+},900);
+
+
+}
+
+
+
+
+
+
+function waitNextWave(){
+
+
+countdown=10;
+
+
+let timer=setInterval(()=>{
+
+
+countdown--;
+
+
+document.getElementById("timer").innerHTML=countdown;
+
+
+
+if(countdown<=0){
+
+
+clearInterval(timer);
+
+
+startWave();
+
+
+}
+
+
+
+},1000);
+
+
+}
+
+
+
+
+
+
+function spawnEnemy(){
+
+
+let enemy=document.createElement("div");
+
+
+enemy.className="enemy";
+
+
+enemy.innerHTML="🐔";
+
+
+
+let hp=document.createElement("div");
+
+hp.className="enemy-hp";
+
+
+let hpFill=document.createElement("div");
+
+hpFill.className="enemy-hp-fill";
+
+
+hp.appendChild(hpFill);
+
+
+enemy.appendChild(hp);
+
+
+
+game.appendChild(enemy);
+
+
+
+
+let data={
+
+
+element:enemy,
+
+hpFill:hpFill,
+
+y:10,
+
+hp:10,
+
+maxHp:10,
+
+alive:true
+
+
+};
+
+
+
+
+enemies.push(data);
+
+
+
+let movement=setInterval(()=>{
+
+
+if(!data.alive){
+
+clearInterval(movement);
+
+return;
+
+}
+
+
+
+data.y+=0.25;
+
+
+enemy.style.top=data.y+"%";
+
+enemy.style.left="50%";
+
+
+
+
+if(data.y>=85){
+
+
+data.alive=false;
+
+
+enemy.remove();
+
+
+clearInterval(movement);
+
+
+
+let index=enemies.indexOf(data);
+
+
+if(index!=-1){
+
+enemies.splice(index,1);
+
+}
+
+
+
+life--;
+
+
+update();
+
+
+}
+
+
+
+},50);
+
+
+}
+
+
+
+
+
+
+setInterval(()=>{
+
+
+towers.forEach(tower=>{
+
+
+let target=enemies.find(e=>e.alive);
+
+
+
+if(target){
+
+
+target.hp-=tower.damage;
+
+
+target.hpFill.style.width =
+(target.hp/target.maxHp*100)+"%";
+
+
+
+if(target.hp<=0){
+
+
+target.alive=false;
+
+
+target.element.remove();
+
+
+
+let index=enemies.indexOf(target);
+
+
+if(index!=-1){
+
+enemies.splice(index,1);
+
+}
+
+
+
+money+=25;
+
+
+update();
+
+
+}
+
+
+
+}
+
+
+
+});
+
+
+},700);
+
+
+
+
+
+
+
+setInterval(()=>{
+
+
+if(life<=0){
+
+alert("Derrota");
+
+location.reload();
+
+}
+
+
+},1000);
+
+
+
+
+
+update();
+
+startTimer();
+
+
+</script>
+
+
+</body>
+
+</html>

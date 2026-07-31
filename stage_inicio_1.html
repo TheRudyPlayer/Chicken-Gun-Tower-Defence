@@ -753,7 +753,25 @@ function waitNextWave(){
 
 
 
+function checkVictory(){
 
+    let check = setInterval(function(){
+
+        if(enemies.length === 0){
+
+            clearInterval(check);
+
+            localStorage.setItem("inicioProgress", 2);
+
+            alert("¡Nivel Completado!");
+
+            location.href = "inicio.html";
+
+        }
+
+    }, 300);
+
+    }
 
 
 function spawnEnemy(){

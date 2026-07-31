@@ -194,6 +194,25 @@ object-fit:contain;
 
 }
 
+/* Bullet */
+.bullet{
+
+    position:absolute;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:yellow;
+
+    z-index:100;
+
+    pointer-events:none;
+
+}
+
 
 
 /* Base */
@@ -947,7 +966,77 @@ update();
 }
 
 
+function shoot(tower,target){
 
+    let bullet=document.createElement("div");
+
+    bullet.className="bullet";
+
+    game.appendChild(bullet);
+
+    let x=tower.element.parentElement.offsetLeft+40;
+    let y=tower.element.parentElement.offsetTop+40;
+
+    bullet.style.left=x+"px";
+    bullet.style.top=y+"px";
+
+    let move=setInterval(()=>{
+
+        if(!target.alive){
+
+            bullet.remove();
+
+            clearInterval(move);
+
+            return;
+
+        }
+
+        let tx=target.element.offsetLeft+27;
+        let ty=target.element.offsetTop+27;
+
+        let dx=tx-x;
+        let dy=ty-y;
+
+        let dist=Math.sqrt(dx*dx+dy*dy);
+
+        if(dist<8){
+
+            target.hp-=tower.damage;
+
+            target.hpFill.style.width=(target.hp/target.maxHp*100)+"%";
+
+            bullet.remove();
+
+            clearInterval(move);
+
+            if(target.hp<=0){
+
+                target.alive=false;
+
+                target.element.remove();
+
+                enemies.splice(enemies.indexOf(target),1);
+
+                money+=25;
+
+                update();
+
+            }
+
+            return;
+
+        }
+
+        x+=dx/dist*8;
+        y+=dy/dist*8;
+
+        bullet.style.left=x+"px";
+        bullet.style.top=y+"px";
+
+    },16);
+
+}
 
 
 
@@ -964,11 +1053,7 @@ let target=enemies.find(e=>e.alive);
 if(target){
 
 
-target.hp-=tower.damage;
-
-
-target.hpFill.style.width =
-(target.hp/target.maxHp*100)+"%";
+shoot(tower,target);
 
 
 

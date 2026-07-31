@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Chicken Gun Tower Defense - Nivel 1</title>
+<title>Level 1</title>
 
 <style>
 
@@ -246,6 +246,16 @@ button{
 
 }
 
+.tower img{
+
+width:70px;
+
+height:70px;
+
+object-fit:contain;
+
+}
+
 
 
 /* Enemigo */
@@ -415,14 +425,14 @@ Construir Torres
 </h2>
 
 
-<button onclick="selectTower('🔫',50,1)">
-🔫 Basic Tower<br>
+<button onclick="selectTower('https://i.postimg.cc/L5BfPb18/Rudy-Image.png',50,1)">
+Rudy<br>
 $50
 </button>
 
 
-<button onclick="selectTower('🎯',200,2.5)">
-🎯 Strong Tower<br>
+<button onclick="selectTower('https://i.postimg.cc/qvYtNT5q/Chalo-Apps-Legacy-Image.png',200,2.5)">
+ChaloApps<br>
 $200
 </button>
 
@@ -601,7 +611,9 @@ let tower=document.createElement("div");
 
 tower.className="tower";
 
-tower.innerHTML=selected.icon;
+tower.innerHTML = `
+<img src="${selected.icon}">
+`;
 
 
 this.appendChild(tower);

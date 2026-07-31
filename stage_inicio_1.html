@@ -508,7 +508,11 @@ Close
 </div>
 
 
+<audio id="shootSfx" src="LINK_DISPARO.mp3" preload="auto"></audio>
 
+<audio id="deathSfx" src="LINK_MUERTE.mp3" preload="auto"></audio>
+
+<audio id="baseHitSfx" src="LINK_BASE.mp3" preload="auto"></audio>
 
 
 <script>
@@ -533,7 +537,15 @@ let towers = [];
 
 let runningWave = false;
 
+function playSfx(id){
 
+    const sound = document.getElementById(id);
+
+    sound.currentTime = 0;
+
+    sound.play();
+
+}
 
 function update(){
 
@@ -956,7 +968,7 @@ enemies.splice(index,1);
 
 }
 
-
+playSfx("baseHitSfx");
 
 life--;
 
@@ -973,6 +985,13 @@ update();
 
 }
 
+let bullet=document.createElement("div");
+
+bullet.className="bullet";
+
+game.appendChild(bullet);
+
+playSfx("shootSfx");
 
 function shoot(tower,target){
 
@@ -1064,7 +1083,7 @@ if(target){
 shoot(tower,target);
 
 
-
+playSfx("deathSfx");
 if(target.hp<=0){
 
 

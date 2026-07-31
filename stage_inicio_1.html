@@ -1033,6 +1033,8 @@ function shoot(tower,target){
 
             if(target.hp<=0){
 
+                playSfx("deathSfx");
+
                 target.alive=false;
 
                 target.element.remove();
@@ -1069,49 +1071,9 @@ towers.forEach(tower=>{
 
 let target=enemies.find(e=>e.alive);
 
-
-
 if(target){
-
-
-shoot(tower,target);
-
-
-if(target.hp<=0){
-
-playSfx("deathSfx");
-
-target.alive=false;
-
-
-target.element.remove();
-
-
-
-let index=enemies.indexOf(target);
-
-
-if(index!=-1){
-
-enemies.splice(index,1);
-
+    shoot(tower,target);
 }
-
-
-
-money+=25;
-
-
-update();
-
-
-}
-
-
-
-}
-
-
 
 });
 

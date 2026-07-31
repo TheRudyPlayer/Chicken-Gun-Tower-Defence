@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CG TD - Inicio</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    font-family:Arial,sans-serif;
+
+    background:url("TU_LINK_DEL_FONDO_INICIO")
+    center top / cover no-repeat fixed;
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+}
+
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.25);
+
+    z-index:-1;
+
+}
+
+
+.title{
+
+    text-align:center;
+
+    color:white;
+
+    font-size:50px;
+
+    margin-top:40px;
+
+    text-shadow:0 4px 10px black;
+
+}
+
+
+.levels{
+
+    width:90%;
+
+    max-width:900px;
+
+    margin:60px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:30px;
+
+}
+
+
+.level{
+
+    aspect-ratio:1;
+
+    border-radius:50%;
+
+    border:5px solid #5c3214;
+
+    background:linear-gradient(
+        180deg,
+        #dca55a,
+        #a9652b
+    );
+
+    color:white;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 7px 0 #5c3214,
+    0 12px 18px rgba(0,0,0,.3);
+
+}
+
+
+.level:hover{
+
+    transform:scale(1.1);
+
+}
+
+
+
+/* Bloqueado */
+
+.locked{
+
+    background:#555;
+
+    border-color:#222;
+
+    color:#ccc;
+
+    cursor:not-allowed;
+
+}
+
+
+.locked:hover{
+
+    transform:none;
+
+}
+
+
+
+/* Volver */
+
+.back{
+
+    position:fixed;
+
+    top:20px;
+
+    left:20px;
+
+    padding:15px 25px;
+
+    border-radius:15px;
+
+    border:4px solid #5c3214;
+
+    background:#c8893e;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<button class="back" onclick="back()">
+Volver
+</button>
+
+
+<h1 class="title">
+Inicio
+</h1>
+
+
+<div class="levels" id="levels"></div>
+
+
+
+<script>
+
+
+let totalLevels = 10;
+
+let container = document.getElementById("levels");
+
+
+let progress = localStorage.getItem("inicioProgress");
+
+
+if(progress == null){
+
+    progress = 1;
+
+}else{
+
+    progress = Number(progress);
+
+}
+
+
+
+for(let i = 1; i <= totalLevels; i++){
+
+
+    let button = document.createElement("button");
+
+    button.className = "level";
+
+
+    if(i <= progress){
+
+
+        button.innerHTML = i;
+
+
+        button.onclick = function(){
+
+            location.href =
+            "stage_inicio_"+i+".html";
+
+        };
+
+
+    }else{
+
+
+        button.classList.add("locked");
+
+        button.innerHTML = "🔒";
+
+
+    }
+
+
+    container.appendChild(button);
+
+
+}
+
+
+
+function back(){
+
+    location.href="worldmap.html";
+
+}
+
+
+</script>
+
+
+</body>
+</html>

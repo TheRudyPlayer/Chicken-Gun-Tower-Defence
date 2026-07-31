@@ -968,7 +968,6 @@ enemies.splice(index,1);
 
 }
 
-playSfx("baseHitSfx");
 
 life--;
 
@@ -985,13 +984,6 @@ update();
 
 }
 
-let bullet=document.createElement("div");
-
-bullet.className="bullet";
-
-game.appendChild(bullet);
-
-playSfx("shootSfx");
 
 function shoot(tower,target){
 
@@ -1000,6 +992,8 @@ function shoot(tower,target){
     bullet.className="bullet";
 
     game.appendChild(bullet);
+
+    playSfx("shootSfx");
 
     let x=tower.element.parentElement.offsetLeft+40;
     let y=tower.element.parentElement.offsetTop+40;
@@ -1083,9 +1077,9 @@ if(target){
 shoot(tower,target);
 
 
-playSfx("deathSfx");
 if(target.hp<=0){
 
+playSfx("deathSfx");
 
 target.alive=false;
 
@@ -1132,15 +1126,19 @@ update();
 
 setInterval(()=>{
 
+    if(life<=0){
 
-if(life<=0){
+        playSfx("baseHitSfx");
 
-alert("Defeat");
+        setTimeout(()=>{
 
-location.reload();
+            alert("Defeat");
 
-}
+            location.reload();
 
+        },300);
+
+    }
 
 },1000);
 

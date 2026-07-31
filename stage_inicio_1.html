@@ -182,6 +182,8 @@ button{
 
     font-size:55px;
 
+    z-index:10;
+
 }
 
 .spawn img{
@@ -226,6 +228,10 @@ object-fit:contain;
     left:50%;
 
     transform:translateX(-50%);
+
+    width:90px;
+
+    height:90px;
 
     z-index:10;
 
@@ -322,6 +328,8 @@ object-fit:contain;
     justify-content:center;
 
     font-size:25px;
+
+    z-index:5;
 
 }
 
@@ -921,7 +929,7 @@ data.y+=0.25;
 
 enemy.style.top=data.y+"%";
 
-enemy.style.left="50%";
+enemy.style.left="calc(50% - 27.5px)";
 
 
 

@@ -363,11 +363,11 @@ object-fit:contain;
 </div>
 
 <button onclick="openShop()">
-Torres
+Towers
 </button>
 
 <button onclick="deleteMode()">
-Eliminar
+Delete Tower
 </button>
 
 </div>
@@ -421,7 +421,7 @@ Eliminar
 <div id="shop">
 
 <h2 style="color:white">
-Construir Torres
+Build Towers
 </h2>
 
 
@@ -438,7 +438,7 @@ $200
 
 
 <button onclick="closeShop()">
-Cerrar
+Close
 </button>
 
 
@@ -775,7 +775,7 @@ function checkVictory(){
 
             localStorage.setItem("inicioProgress", 2);
 
-            alert("¡Nivel Completado!");
+            alert("Level Completed!");
 
             location.href = "inicio.html";
 
@@ -985,7 +985,7 @@ setInterval(()=>{
 
 if(life<=0){
 
-alert("Derrota");
+alert("Defeat");
 
 location.reload();
 

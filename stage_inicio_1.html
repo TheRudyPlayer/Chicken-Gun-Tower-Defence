@@ -182,6 +182,16 @@ button{
 
 }
 
+.spawn img{
+
+width:80px;
+
+height:80px;
+
+object-fit:contain;
+
+}
+
 
 
 /* Base */
@@ -197,6 +207,16 @@ button{
     transform:translateX(-50%);
 
     font-size:60px;
+
+}
+
+.base img{
+
+width:80px;
+
+height:80px;
+
+object-fit:contain;
 
 }
 
@@ -281,6 +301,20 @@ object-fit:contain;
     justify-content:center;
 
     font-size:25px;
+
+}
+
+.enemy img{
+
+    width:45px;
+
+    height:45px;
+
+    object-fit:contain;
+
+    pointer-events:none;
+
+    user-select:none;
 
 }
 
@@ -388,12 +422,12 @@ Delete Tower
 
 
 <div class="spawn">
-🐔
+<img src="https://i.postimg.cc/mkgcGdtF/Enemy-Base.png">
 </div>
 
 
 <div class="base">
-🏰
+<img src="https://i.postimg.cc/Jh3tHwXC/Survivor-Base.png">
 </div>
 
 
@@ -795,7 +829,9 @@ let enemy=document.createElement("div");
 enemy.className="enemy";
 
 
-enemy.innerHTML="🐔";
+enemy.innerHTML = `
+<img src="https://i.postimg.cc/KcCKW5mm/Meat-Chicken-Icon.png">
+`;
 
 
 
